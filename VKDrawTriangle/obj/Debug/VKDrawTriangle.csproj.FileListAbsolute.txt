@@ -1,0 +1,12 @@
+C:\Users\javie\Desktop\VKDrawTriangle\VKDrawTriangle\bin\Debug\VKDrawTriangle.exe.config
+C:\Users\javie\Desktop\VKDrawTriangle\VKDrawTriangle\bin\Debug\VKDrawTriangle.exe
+C:\Users\javie\Desktop\VKDrawTriangle\VKDrawTriangle\bin\Debug\VKDrawTriangle.pdb
+C:\Users\javie\Desktop\VKDrawTriangle\VKDrawTriangle\obj\Debug\VKDrawTriangle.csprojResolveAssemblyReference.cache
+C:\Users\javie\Desktop\VKDrawTriangle\VKDrawTriangle\obj\Debug\VKDrawTriangle.csproj.CoreCompileInputs.cache
+C:\Users\javie\Desktop\VKDrawTriangle\VKDrawTriangle\obj\Debug\VKDrawTriangle.exe
+C:\Users\javie\Desktop\VKDrawTriangle\VKDrawTriangle\obj\Debug\VKDrawTriangle.pdb
+C:\Users\javie\Desktop\VKDrawTriangle\VKDrawTriangle\bin\Debug\Vulkan.dll
+C:\Users\javie\Desktop\VKDrawTriangle\VKDrawTriangle\bin\Debug\Vulkan.Windows.dll
+C:\Users\javie\Desktop\VKDrawTriangle\VKDrawTriangle\bin\Debug\Vulkan.dll.config
+C:\Users\javie\Desktop\VKDrawTriangle\VKDrawTriangle\bin\Debug\Shaders\frag.spv
+C:\Users\javie\Desktop\VKDrawTriangle\VKDrawTriangle\bin\Debug\Shaders\vert.spv
