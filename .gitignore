@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/Vulkan_Tutorials/v15
+/VKVertexBuffers/obj/Debug
+/VKVertexBuffers/bin/Debug
