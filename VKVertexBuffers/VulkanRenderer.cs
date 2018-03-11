@@ -127,6 +127,8 @@ namespace VKVertexBuffers
 
             vkDevice.DestroySwapchainKHR(vkSwapChain);
             vkDevice.Destroy();
+            vkInstance.DestroySurfaceKHR(vkSurface);
+            vkInstance.Destroy();
         }
 
         private void CreateInstace()
@@ -153,6 +155,16 @@ namespace VKVertexBuffers
             vkInstance = new Instance(createInfo);
         }
 
+        private void CreateSurface(IntPtr windowHandle)
+        {
+            vkSurface = vkInstance.CreateWin32SurfaceKHR(
+                            new Win32SurfaceCreateInfoKhr()
+                            {
+                                Hinstance = Process.GetCurrentProcess().Handle,
+                                Hwnd = windowHandle
+                            });
+        }
+
         private void CreatePhysicalDevice()
         {
             var physicalDevices = vkInstance.EnumeratePhysicalDevices();
@@ -174,79 +186,31 @@ namespace VKVertexBuffers
             }
         }
 
-        private void CreateSurface(IntPtr windowHandle)
-        {
-            vkSurface = vkInstance.CreateWin32SurfaceKHR(
-                            new Win32SurfaceCreateInfoKhr()
-                            {
-                                Hinstance = Process.GetCurrentProcess().Handle,
-                                Hwnd = windowHandle
-                            });
-        }
-
         private void CreateLogicalDevice()
         {
             var indices = new QueueFamilyIndices(vkPhysicalDevice, vkSurface);
 
-            var queueCreateInfos = new HashSet<uint>()
+            var queueCreateInfos = new DeviceQueueCreateInfo[]
             {
-                (uint)indices.GraphicsFamily,
-                (uint)indices.PresentFamily,
-            }
-            .Select(index => new DeviceQueueCreateInfo()
-            {
-                QueueFamilyIndex = index,
-                QueueCount = 1,
-                QueuePriorities = new[] { 1.0f },
-            })
-            .ToArray();
+                new DeviceQueueCreateInfo()
+                {
+                    QueueFamilyIndex = (uint)indices.GraphicsFamily,
+                    QueueCount = 1,
+                    QueuePriorities = new float[] { 1.0f },
+                }
+            };
 
-            vkDevice = vkPhysicalDevice.CreateDevice(new DeviceCreateInfo()
+            var createInfo = new DeviceCreateInfo()
             {
                 EnabledExtensionNames = new string[] { "VK_KHR_swapchain" },
                 QueueCreateInfos = queueCreateInfos,
                 EnabledFeatures = new PhysicalDeviceFeatures(),
-            });
+            };
+
+            vkDevice = vkPhysicalDevice.CreateDevice(createInfo);
 
             vkGraphicsQueue = vkDevice.GetQueue((uint)indices.GraphicsFamily, 0);
             vkPresentQueue = vkDevice.GetQueue((uint)indices.PresentFamily, 0);
-        }
-
-        private SurfaceFormatKhr ChooseSwapSurfaceFormat(SurfaceFormatKhr[] formats)
-        {
-            if (formats.Length == 1 && formats[0].Format == Format.Undefined)
-            {
-                return new SurfaceFormatKhr() { Format = Format.B8G8R8A8Unorm, ColorSpace = ColorSpaceKhr.SrgbNonlinear };
-            }
-
-            foreach (var availableFormat in formats)
-            {
-                if (availableFormat.Format == Format.B8G8R8A8Unorm && availableFormat.ColorSpace == ColorSpaceKhr.SrgbNonlinear)
-                {
-                    return availableFormat;
-                }
-            }
-
-            return formats[0];
-        }
-
-        private PresentModeKhr ChooseSwapPresentMode(PresentModeKhr[] presentModes)
-        {
-            PresentModeKhr bestMode = PresentModeKhr.Fifo;
-
-            foreach (var availablePresentMode in presentModes)
-            {
-                if (availablePresentMode == PresentModeKhr.Mailbox)
-                {
-                    return availablePresentMode;
-                }
-                else if (availablePresentMode == PresentModeKhr.Immediate)
-                {
-                    bestMode = PresentModeKhr.Immediate;
-                }
-            }
-
-            return bestMode;
         }
 
         private void CreateSwapChain()
@@ -296,6 +260,43 @@ namespace VKVertexBuffers
             vkSwapChainImages = vkDevice.GetSwapchainImagesKHR(vkSwapChain);
             vkSwapChainImageFormat = surfaceFormat.Format;
             vkSwapChainExtent = extent;
+        }
+
+        private SurfaceFormatKhr ChooseSwapSurfaceFormat(SurfaceFormatKhr[] formats)
+        {
+            if (formats.Length == 1 && formats[0].Format == Format.Undefined)
+            {
+                return new SurfaceFormatKhr() { Format = Format.B8G8R8A8Unorm, ColorSpace = ColorSpaceKhr.SrgbNonlinear };
+            }
+
+            foreach (var availableFormat in formats)
+            {
+                if (availableFormat.Format == Format.B8G8R8A8Unorm && availableFormat.ColorSpace == ColorSpaceKhr.SrgbNonlinear)
+                {
+                    return availableFormat;
+                }
+            }
+
+            return formats[0];
+        }
+
+        private PresentModeKhr ChooseSwapPresentMode(PresentModeKhr[] presentModes)
+        {
+            PresentModeKhr bestMode = PresentModeKhr.Fifo;
+
+            foreach (var availablePresentMode in presentModes)
+            {
+                if (availablePresentMode == PresentModeKhr.Mailbox)
+                {
+                    return availablePresentMode;
+                }
+                else if (availablePresentMode == PresentModeKhr.Immediate)
+                {
+                    bestMode = PresentModeKhr.Immediate;
+                }
+            }
+
+            return bestMode;
         }
 
         private Extent2D ChooseSwapExtent(SurfaceCapabilitiesKhr capabilities)
