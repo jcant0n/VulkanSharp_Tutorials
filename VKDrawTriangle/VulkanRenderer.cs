@@ -37,7 +37,7 @@ namespace VKDrawTriangle
             this.width = width;
             this.height = height;
 
-            CreateInstace();
+            CreateInstance();
             CreateSurface(windowsHandle);
             CreatePhysicalDevice();
             CreateLogicalDevice();
@@ -106,7 +106,7 @@ namespace VKDrawTriangle
             vkInstance.Destroy();
         }
 
-        private void CreateInstace()
+        private void CreateInstance()
         {
             ApplicationInfo appInfo = new ApplicationInfo()
             {
