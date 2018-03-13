@@ -38,3 +38,6 @@ packages/VulkanSharp.0.1.9/lib/win8/Vulkan.dll.config
 packages/VulkanSharp.0.1.9/lib/win8/Vulkan.dll.mdb
 packages/VulkanSharp.0.1.9/lib/win8/Vulkan.Windows.dll
 packages/VulkanSharp.0.1.9/VulkanSharp.0.1.9.nupkg
+/VKDrawTriangle/obj/Debug
+/VKUniformBuffers/bin/Debug
+/VKUniformBuffers/obj/Debug
